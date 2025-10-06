@@ -1,5 +1,6 @@
 const axios = require('axios');
 require('dotenv').config();
+const logger = require('../services/looger')
 
 const generateTxRef = () => {
     const prefix = 'chopnow-customer-order-payment'; // Replace with your desired prefix
@@ -122,9 +123,11 @@ async function initiatePayout(req, res) {
     );
 
     console.log("Payout initiated:", response.data);
+    logger.info(`payout queued`, response.data['id'])
     return res.status(200).json(response.data);
   } catch (error) {
     if (error.response) {
+      logger.error("payout failed", error)
       console.error("Payout failed:", error.response.data);
       return res.status(400).json(error.response.data);
     } else {
