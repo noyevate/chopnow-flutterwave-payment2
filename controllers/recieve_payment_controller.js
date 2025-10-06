@@ -100,7 +100,7 @@ async function webhooks(req, res) {
 async function initiatePayout(req, res) {
   console.log("calling the payout function...");
 
-  const { account_bank, account_number, amount, narration } = req.body;
+  const { account_bank, account_number, amount, narration, full_name } = req.body;
 
   try {
     const response = await axios.post(
@@ -113,6 +113,7 @@ async function initiatePayout(req, res) {
         currency: "NGN",
         reference: generatedeliveryTxRef(),
         debit_currency: "NGN",
+        full_name: full_name || ""
       },
       {
         headers: {
